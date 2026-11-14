@@ -120,7 +120,7 @@ slider.addEventListener('pointerup',function(){ scrubbing=false; rec.classList.r
 
 /* ---------------- Hero: word roll + scroll scale (SPEC §3.1) ---------------- */
 var track=$('#roll-track'),rollIdx=0;
-if(track&&!reduced){ setInterval(function(){ rollIdx++; track.style.transform='translateY(-'+(rollIdx*1.04)+'em)'; if(rollIdx===4){ setTimeout(function(){ track.style.transition='none'; rollIdx=0; track.style.transform='translateY(0)'; requestAnimationFrame(function(){ requestAnimationFrame(function(){ track.style.transition=''; }); }); },620); } },1460); /* HOLD 900 + roll 560 */ }
+if(track&&!reduced){ setInterval(function(){ rollIdx++; track.style.transform='translateY(-'+(rollIdx*1.2)+'em)'; if(rollIdx===4){ setTimeout(function(){ track.style.transition='none'; rollIdx=0; track.style.transform='translateY(0)'; requestAnimationFrame(function(){ requestAnimationFrame(function(){ track.style.transition=''; }); }); },620); } },1460); /* HOLD 900 + roll 560 */ }
 var heroContent=$('#hero-content');
 Scroll.add(function(y,vh,vw){
   if(current!=='home'||!heroContent) return;
