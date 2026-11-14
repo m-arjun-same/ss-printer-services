@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500&family=Inter:wght@300;400;700&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="css/site.css?v=4">
+<link rel="stylesheet" href="css/site.css?v=5">
 <script>
 /* Route shim + theme pre-paint (own code, SPEC §1.2/§1.7) */
 (function(){
@@ -172,6 +172,7 @@
       </div>
     </div>
   </section>
+</main>
 
   <!-- TESTIMONIALS (SPEC §3.1) -->
   <section class="testimonials" id="testimonials">
@@ -180,17 +181,17 @@
       <h2 class="t-heading">In their words</h2>
     </div>
     <div class="t-cards" id="t-cards">
-      <article class="t-card">
+      <article class="t-card" style="--pos: 0; z-index: 3;">
         <div class="stars" aria-label="Rated 4.5 of 5 on JustDial">★★★★★</div>
         <blockquote>Rated 4.5 of 5 from 519 ratings on JustDial — the city&rsquo;s printer owners keep this counter busy. The themes repeat across hundreds of reviews: fast service, genuine work, and a reasonable price for the repair.</blockquote>
         <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">519 ratings · 4.5 of 5</div></div></div>
       </article>
-      <article class="t-card">
+      <article class="t-card" style="--pos: 1; z-index: 2;">
         <div class="stars" aria-label="Rated 5 of 5 on Google">★★★★★</div>
         <blockquote>A perfect 5.0 on Google — from a small set of 2 reviews, and we say so plainly. Both describe the same counter experience customers have had since 2001: bring the printer in broken, take it home printing.</blockquote>
         <div class="who"><div class="avatar" aria-hidden="true">G</div><div><div class="t-name">Google reviewer</div><div class="t-role">2 reviews · 5.0 of 5</div></div></div>
       </article>
-      <article class="t-card">
+      <article class="t-card" style="--pos: -1; z-index: 1;">
         <div class="stars" aria-label="Review themes from JustDial">★★★★★</div>
         <blockquote>What reviewers praise: same-day turnaround, honest diagnosis before any part is changed, and refilled cartridges that are print-tested before handover. What a few flag: popular cartridges can sell out — call ahead on +91 94409 44388.</blockquote>
         <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">Review themes · JustDial</div></div></div>
@@ -198,7 +199,7 @@
     </div>
     <div class="t-land" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 78 C240 52 480 92 760 70 C1040 48 1240 84 1440 62 L1440 120 L0 120 Z" fill="#e7e0d2"/><g stroke="#5c7d3f" stroke-width="3" fill="none" opacity="0.65"><path d="M120 84 q4 -22 -4 -34"/><path d="M132 84 q10 -18 22 -24"/><path d="M640 80 q4 -22 -4 -34"/><path d="M652 80 q10 -18 22 -24"/><path d="M1180 76 q4 -22 -4 -34"/><path d="M1192 76 q10 -18 22 -24"/></g></svg></div>
   </section>
-</main>
+  <div class="t-scrub" aria-hidden="true"></div>
 
 <!-- ================= ABOUT VIEW (SPEC §3.2) ================= -->
 <div id="about-view" class="view" hidden>
@@ -224,29 +225,50 @@
   <section class="about-exp">
     <div class="ae-inner">
       <p class="ae-label">The practice, since 2001</p>
-      <div class="exp-row">
-        <div><h3>SS Printer Services</h3><div class="role">Founder JV — printer repair &amp; service centre</div></div>
-        <div class="dates">2001 — Present · KPHB, Hyderabad</div>
-        <ul>
-          <li>Printer repair for HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh and Kyocera.</li>
-          <li>The business&rsquo;s own older pages count 75,000+ printers repaired since 2001 — their claim, kept as they state it.</li>
-          <li>On-site and doorstep service with door pickup and delivery across Hyderabad.</li>
-        </ul>
+      <div class="aexp-list">
+      <div class="aexp-item is-open">
+        <button class="aexp-head" aria-expanded="true">
+          <span class="aexp-company"><span class="aexp-name">SS Printer Services</span><span class="aexp-role">Founder JV — printer repair &amp; service centre</span></span>
+          <span class="aexp-meta"><span class="aexp-date">2001 — Present · KPHB, Hyderabad</span><span class="aexp-toggle" aria-hidden="true"></span></span>
+        </button>
+        <div class="aexp-panel"><div class="aexp-panel-inner">
+          <ul class="aexp-bullets">
+            <li>Printer repair for HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh and Kyocera.</li>
+            <li>The business&rsquo;s own older pages count 75,000+ printers repaired since 2001 — their claim, kept as they state it.</li>
+            <li>On-site and doorstep service with door pickup and delivery across Hyderabad.</li>
+          </ul>
+        </div></div>
       </div>
-      <div class="exp-row">
-        <div><h3>Cartridge Refilling &amp; Consumables</h3><div class="role">Ink &amp; toner refilling — sister store</div></div>
-        <div class="dates">KPHB Main Road</div>
-        <ul><li>Every refill follows the full bench process: disassemble, clean, replace worn parts, refill, then a print test before the cartridge leaves the counter.</li></ul>
+      <div class="aexp-divider"></div>
+      <div class="aexp-item">
+        <button class="aexp-head" aria-expanded="false">
+          <span class="aexp-company"><span class="aexp-name">Cartridge Refilling &amp; Consumables</span><span class="aexp-role">Ink &amp; toner refilling — sister store</span></span>
+          <span class="aexp-meta"><span class="aexp-date">KPHB Main Road</span><span class="aexp-toggle" aria-hidden="true"></span></span>
+        </button>
+        <div class="aexp-panel"><div class="aexp-panel-inner">
+          <ul class="aexp-bullets"><li>Every refill follows the full bench process: disassemble, clean, replace worn parts, refill, then a print test before the cartridge leaves the counter.</li></ul>
+        </div></div>
       </div>
-      <div class="exp-row">
-        <div><h3>On-Site &amp; AMC Support</h3><div class="role">Maintenance for homes &amp; offices</div></div>
-        <div class="dates">35+ areas served</div>
-        <ul><li>Installation and setup for new printers, maintenance visits, and annual support for offices that print every day — from KPHB and Hitech City to Secunderabad and Shamshabad.</li></ul>
+      <div class="aexp-divider"></div>
+      <div class="aexp-item">
+        <button class="aexp-head" aria-expanded="false">
+          <span class="aexp-company"><span class="aexp-name">On-Site &amp; AMC Support</span><span class="aexp-role">Maintenance for homes &amp; offices</span></span>
+          <span class="aexp-meta"><span class="aexp-date">35+ areas served</span><span class="aexp-toggle" aria-hidden="true"></span></span>
+        </button>
+        <div class="aexp-panel"><div class="aexp-panel-inner">
+          <ul class="aexp-bullets"><li>Installation and setup for new printers, maintenance visits, and annual support for offices that print every day — from KPHB and Hitech City to Secunderabad and Shamshabad.</li></ul>
+        </div></div>
       </div>
-      <div class="exp-row">
-        <div><h3>Genuine Spares &amp; Sales</h3><div class="role">Parts, consumables &amp; printer sales</div></div>
-        <div class="dates">Enquiry only — no listed prices</div>
-        <ul><li>Genuine spare parts, ink bottles, ink cartridges, toner cartridges and ribbon cartridges — twelve enquiry-only lines, priced at the counter, never invented online.</li></ul>
+      <div class="aexp-divider"></div>
+      <div class="aexp-item">
+        <button class="aexp-head" aria-expanded="false">
+          <span class="aexp-company"><span class="aexp-name">Genuine Spares &amp; Sales</span><span class="aexp-role">Parts, consumables &amp; printer sales</span></span>
+          <span class="aexp-meta"><span class="aexp-date">Enquiry only — no listed prices</span><span class="aexp-toggle" aria-hidden="true"></span></span>
+        </button>
+        <div class="aexp-panel"><div class="aexp-panel-inner">
+          <ul class="aexp-bullets"><li>Genuine spare parts, ink bottles, ink cartridges, toner cartridges and ribbon cartridges — twelve enquiry-only lines, priced at the counter, never invented online.</li></ul>
+        </div></div>
+      </div>
       </div>
       <div class="quote-block">
         <p class="q">&ldquo;We fix it. You print it.&rdquo;</p>
@@ -586,6 +608,7 @@
 
 <!-- ================= FOOTER (SPEC §1.7) ================= -->
 <footer class="site-footer" id="contact">
+  <div class="ft-wavy" aria-hidden="true"></div>
   <p class="ft-sub">Printer repair, refilling and on-site service from KPHB, Hyderabad — since 2001. One call starts every job.</p>
   <button class="ft-head" data-contact>Let&rsquo;s fix your next print run</button>
   <div class="ft-grid">
@@ -637,6 +660,6 @@
 </div>
 
 <audio id="audio" preload="none"><source src="assets/store-tour.mp3" type="audio/mpeg"></audio>
-<script src="js/site.js?v=4" defer></script>
+<script src="js/site.js?v=5" defer></script>
 </body>
 </html>

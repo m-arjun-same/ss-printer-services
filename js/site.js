@@ -56,6 +56,7 @@ function applyRoute(name,skipScroll,fromPop){
   buildPager(name);
   initDeck(name);
   Scroll.kick();
+  if(window.__pgEnter) window.__pgEnter(name);
 }
 var curtainBusy=false;
 /* Cross-document routes in the reference (case study <-> main pages) load a fresh
@@ -288,17 +289,89 @@ $$('video[data-src]').forEach(function(v){ vio.observe(v); });
 /* Marquee: duplicate set for the loop (SPEC §3.1) */
 (function(){ var mt=$('#marquee-track'); if(mt) mt.innerHTML+=mt.innerHTML; })();
 
-/* Testimonial fan scrub (SPEC §3.1: SCRUB 460px, spread × 462px) */
+/* Testimonial deck fan (reference script: cards stay stacked through the
+   slide-in; once the section pins, further scroll scrubs --spread 0->1 over
+   SCRUB 460px with smoothstep ease; cards translateX(--pos x spread x 462px).
+   Desktop >=1101px only; reduced motion -> spread 1, fully fanned) */
 (function(){
-  var cards=$$('#t-cards .t-card'); if(!cards.length)return;
-  cards.forEach(function(c,i){ c.style.zIndex=10-Math.abs(i-1); });
-  Scroll.add(function(y,vh){
+  var cards=$('#t-cards'), sec=$('#testimonials'); if(!cards||!sec)return;
+  var flowTop=null;
+  function measureFlowTop(){
+    var p=sec.style.position,t=sec.style.top;
+    sec.style.position='static'; sec.style.top='auto';
+    flowTop=sec.getBoundingClientRect().top+window.scrollY;
+    sec.style.position=p; sec.style.top=t;
+  }
+  Scroll.add(function(){
     if(current!=='home')return;
-    if(innerWidth<=1100){ cards.forEach(function(c){ c.style.transform=''; }); return; }
-    var sec=$('#testimonials'); var r=sec.getBoundingClientRect();
-    var start=vh*0.2; var p=Math.min(1,Math.max(0,(start-r.top)/460));
-    cards.forEach(function(c,i){ var pos=i-1; c.style.transform='translateX('+(pos*p*462)+'px) rotate('+(pos*p*4)+'deg)'; });
+    if(innerWidth<=1100){ cards.style.removeProperty('--spread'); return; }
+    if(reduced){ cards.style.setProperty('--spread','1'); return; }
+    var r=sec.getBoundingClientRect(); if(!r.height)return;
+    if(r.top>0.5) flowTop=r.top+window.scrollY;
+    else if(flowTop==null) measureFlowTop();
+    var past=window.scrollY-flowTop;
+    var t=Math.min(1,Math.max(0,past/460));
+    var p=t*t*(3-2*t);
+    cards.style.setProperty('--spread',p.toFixed(4));
   });
+  function invalidate(){ flowTop=null; Scroll.kick(); }
+  addEventListener('resize',invalidate);
+  addEventListener('load',invalidate);
+})();
+
+/* Testimonials <=1100px: infinite-loop snap carousel (reference script:
+   clone a full set on each side, wrap scrollLeft by one set-width once the
+   scroll settles — 80ms idle — with the wrap band offset half a stride so
+   it never lands on a snap point) */
+(function(){
+  var track=$('#t-cards'); if(!track)return;
+  var originals=$$('.t-card',track); if(originals.length<2)return;
+  var clones=[],setW=0,lo=0,hi=0,looping=false;
+  function isMobile(){ return innerWidth<=1100; }
+  function clearClones(){ clones.forEach(function(c){ c.remove(); }); clones=[]; looping=false; }
+  function measure(){
+    if(!clones.length)return;
+    var first=originals[0];
+    var trailFirst=clones[clones.length-originals.length];
+    setW=trailFirst.offsetLeft-first.offsetLeft;
+    var stride=setW/originals.length;
+    var baseX=first.offsetLeft-(track.clientWidth-first.offsetWidth)/2;
+    lo=baseX-stride/2; hi=baseX+setW-stride/2;
+    looping=setW>10;
+    if(looping) track.scrollLeft=baseX;
+  }
+  function build(){
+    clearClones();
+    if(!isMobile())return;
+    var lead=originals.map(function(c){ return c.cloneNode(true); });
+    var trail=originals.map(function(c){ return c.cloneNode(true); });
+    lead.concat(trail).forEach(function(c){ c.setAttribute('aria-hidden','true'); c.tabIndex=-1; });
+    lead.forEach(function(c){ track.insertBefore(c,originals[0]); });
+    trail.forEach(function(c){ track.appendChild(c); });
+    clones=lead.concat(trail);
+    measure();
+    requestAnimationFrame(measure);
+  }
+  var idle=0;
+  track.addEventListener('scroll',function(){
+    if(!looping)return;
+    clearTimeout(idle);
+    idle=setTimeout(function(){
+      var x=track.scrollLeft;
+      if(x>=hi) track.scrollLeft=x-setW;
+      else if(x<lo) track.scrollLeft=x+setW;
+    },80);
+  },{passive:true});
+  var rt;
+  addEventListener('resize',function(){
+    clearTimeout(rt);
+    rt=setTimeout(function(){
+      if(!isMobile()){ clearClones(); return; }
+      if(!clones.length) build(); else measure();
+    },150);
+  });
+  addEventListener('load',function(){ if(isMobile()) measure(); });
+  build();
 })();
 
 /* ---------------- About polaroids (SPEC §3.2) ---------------- */
@@ -311,6 +384,73 @@ $$('video[data-src]').forEach(function(v){ vio.observe(v); });
     pol.addEventListener('pointerup',function(){ drag=false; pol.style.transition='transform .5s cubic-bezier(0.34,1.56,0.64,1)'; });
   });
   reset.addEventListener('click',function(){ $$('.polaroid',stage).forEach(function(p){ p.style.transition='transform .72s cubic-bezier(0.22,1,0.36,1)'; p.style.transform=''; }); reset.classList.remove('show'); moved=false; });
+})();
+
+/* ---------------- About experience accordion (reference script: single-open;
+   <=1100px starts with every row collapsed) ---------------- */
+(function(){
+  var items=$$('#about-view .aexp-item'); if(!items.length)return;
+  items.forEach(function(item){
+    var head=$('.aexp-head',item); if(!head)return;
+    head.addEventListener('click',function(){
+      var willOpen=!item.classList.contains('is-open');
+      items.forEach(function(o){
+        var on=(o===item)&&willOpen;
+        o.classList.toggle('is-open',on);
+        $('.aexp-head',o).setAttribute('aria-expanded',String(on));
+      });
+    });
+  });
+  if(matchMedia('(max-width: 1100px)').matches){
+    items.forEach(function(item){
+      item.classList.remove('is-open');
+      $('.aexp-head',item).setAttribute('aria-expanded','false');
+    });
+  }
+})();
+
+/* ---------------- About fun-facts fan (reference script: cards start piled
+   at the stage centre and spread into the grid on scroll; runway begins when
+   the section is ~70% risen — flowTop - 0.30vh — and ends at flowTop +
+   0.70vh, smoothstep-eased; --ff-open on the stage drives every card) --- */
+(function(){
+  var view=$('#about-view'); if(!view)return;
+  var stage=$('.fact-grid',view); if(!stage)return;
+  var cards=$$('.fact-card',stage); if(!cards.length)return;
+  var section=$('.about-fun',view);
+  var flowTop=0,lastOpen=null,needsLayout=true;
+  function layout(){
+    var prev=stage.style.getPropertyValue('--ff-open');
+    stage.style.setProperty('--ff-open','1');
+    void stage.offsetWidth;
+    var scx=stage.offsetWidth/2, scy=stage.offsetHeight/2;
+    cards.forEach(function(c){
+      var gcx=c.offsetLeft+c.offsetWidth/2, gcy=c.offsetTop+c.offsetHeight/2;
+      c.style.setProperty('--dx',(scx-gcx).toFixed(1)+'px');
+      c.style.setProperty('--dy',(scy-gcy).toFixed(1)+'px');
+      c.style.setProperty('--rot','0deg');
+    });
+    stage.style.setProperty('--ff-open',prev||'1');
+    needsLayout=false;
+  }
+  function smooth(t){ t=Math.min(1,Math.max(0,t)); return t*t*(3-2*t); }
+  Scroll.add(function(){
+    if(view.hidden)return;
+    if(needsLayout) layout();
+    var open;
+    if(reduced){ open=1; }
+    else{
+      var rect=section.getBoundingClientRect();
+      if(rect.top>0.5) flowTop=window.scrollY+rect.top;
+      else if(!flowTop) flowTop=section.offsetTop;
+      var vh=innerHeight||1;
+      var start=flowTop-vh*0.30, end=flowTop+vh*0.70;
+      open=smooth((window.scrollY-start)/(end-start));
+    }
+    var o=open.toFixed(4);
+    if(o!==lastOpen){ stage.style.setProperty('--ff-open',o); lastOpen=o; }
+  });
+  addEventListener('resize',function(){ needsLayout=true; lastOpen=null; Scroll.kick(); });
 })();
 
 /* ---------------- Playground coverflow (SPEC §4.1 — exact ring maths) ---------------- */
@@ -368,6 +508,13 @@ function layout(){
   },180);
 }
 function go(i){ active=mod(i,N); layout(); }
+/* Route entrance (reference script: on entering the playground route,
+   start() resets to the first card and re-runs layout — the ring animates
+   in through the cards' .7s transition; leaving pauses all card videos) */
+window.__pgEnter=function(n){
+  if(n==='playground'){ active=0; buildCards(); layout(); }
+  else if(trackEl){ $$('.pgf-card video',trackEl).forEach(function(v){ v.pause(); }); }
+};
 buildCards();
 $('#pgf-prev').addEventListener('click',function(){ go(active-1); });
 $('#pgf-next').addEventListener('click',function(){ go(active+1); });
