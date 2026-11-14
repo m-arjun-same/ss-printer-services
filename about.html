@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SS Printer Services — Printer Repair &amp; Cartridge Refilling, Hyderabad</title>
+<meta name="description" content="SS Printer Services — printer repair, on-site service and ink & toner cartridge refilling in KPHB, Kukatpally, Hyderabad since 2001. HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh, Kyocera.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%23060606'/%3E%3Ctext x='16' y='22' font-size='15' text-anchor='middle' fill='%23fff9f1' font-family='Georgia'%3ESS%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500&family=Inter:wght@300;400;700&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital@1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/site.css?v=1">
+<script>
+/* Route shim + theme pre-paint (own code, SPEC §1.2/§1.7) */
+(function(){
+  try{ if(localStorage.getItem('theme')==='night') document.documentElement.classList.add('pre-night'); }catch(e){}
+  var P2H={'/about':'about','/playground':'playground','/services':'playground','/work/repair':'repair','/work/refilling':'refilling','/work/onsite':'onsite','/work/on-site-amc':'onsite','/work/spares':'spares'};
+  window.route={
+    map:P2H,
+    token:function(){
+      var p=location.pathname.replace(/\/ss-printer-services\/?/,'/').replace(/\/index\.html$/,'/').replace(/\/$/,'')||'/';
+      if(P2H[p]) return P2H[p];
+      if(/about\.html$/.test(p)) return 'about';
+      if(/playground\.html$/.test(p)) return 'playground';
+      if(/repair\.html$/.test(p)) return 'repair';
+      if(/refilling\.html$/.test(p)) return 'refilling';
+      if(/onsite\.html$/.test(p)) return 'onsite';
+      if(/spares\.html$/.test(p)) return 'spares';
+      var q=new URLSearchParams(location.search).get('view'); if(q&&['home','about','playground','repair','refilling','onsite','spares'].indexOf(q)>-1) return q;
+      var h=location.hash.replace('#',''); if(h&&['about','playground','repair','refilling','onsite','spares'].indexOf(h)>-1) return h;
+      return 'home';
+    }
+  };
+  /* one scroll scheduler (SPEC §1.4) */
+  var subs=[],reads=[],ticking=false,_y=0,_vh=0,_vw=0;
+  function frame(){
+    ticking=false; _y=window.scrollY; _vh=innerHeight; _vw=innerWidth;
+    reads.forEach(function(f){try{f(_y,_vh,_vw)}catch(e){}});
+    subs.forEach(function(f){try{f(_y,_vh,_vw)}catch(e){}});
+  }
+  window.Scroll={add:function(f){subs.push(f)},addRead:function(f){reads.push(f)},
+    kick:function(){if(!ticking){ticking=true;requestAnimationFrame(frame)}},
+    get y(){return _y},get vh(){return _vh},get vw(){return _vw}};
+  addEventListener('scroll',window.Scroll.kick,{passive:true});
+  addEventListener('resize',window.Scroll.kick);
+})();
+</script>
+</head>
+<body>
+<script>if(document.documentElement.classList.contains('pre-night'))document.body.classList.add('night');</script>
+
+<!-- Loader (SPEC §1.3) -->
+<div id="page-loader" role="status" aria-label="Loading">
+  <div>
+    <div class="pl-stage" aria-hidden="true">
+      <div class="pl-dots"><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i><i></i></div>
+      <div class="pl-pac"><i></i><i></i></div>
+    </div>
+    <div class="pl-line" id="pl-line">Warming up the print heads…</div>
+  </div>
+</div>
+
+<!-- Route curtain (SPEC §1.2) -->
+<div id="route-curtain" aria-hidden="true"><div class="rc-scrim"></div><div class="rc-pane top"></div><div class="rc-pane bottom"></div></div>
+
+<div id="dot-cursor" aria-hidden="true"></div>
+
+<!-- Nav (SPEC §1.7) -->
+<header id="nav">
+  <div class="nav-side"><span class="pin" aria-hidden="true"></span> Hyderabad, TS</div>
+  <a class="nav-back" href="./" data-route="home">← All services</a>
+  <nav class="nav-pill" id="nav-pill" aria-label="Main">
+    <a class="nav-link" href="./" data-route="home">Work</a>
+    <a class="nav-link" href="about.html" data-route="about">About</a>
+    <a class="nav-link" href="playground.html" data-route="playground">Services</a>
+    <span class="avail"><span class="avail-dot"></span> Open Mon–Sat</span>
+    <a href="#contact" data-contact>Contact</a>
+  </nav>
+  <div class="nav-tools">
+    <button class="wave-btn" id="wave-btn" aria-label="Play or pause the service centre audio">
+      <span class="bars"><i></i><i></i><i></i><i></i></span>
+    </button>
+    <button class="theme-toggle" id="theme-toggle" aria-label="Toggle day and night mode"></button>
+    <button class="burger" id="burger" aria-label="Open menu"><i></i><i></i><i></i></button>
+  </div>
+  <div class="mobile-menu">
+    <a href="./" data-route="home">01&nbsp; Work</a>
+    <a href="about.html" data-route="about">02&nbsp; About</a>
+    <a href="playground.html" data-route="playground">03&nbsp; Services</a>
+    <div class="mm-foot">Hyderabad, TS</div>
+  </div>
+</header>
+
+<main id="home-view">
+  <!-- HERO (SPEC §3.1) -->
+  <section class="hero" id="hero">
+    <img class="hero-shader-img" id="hero-img" src="assets/printer-collection.webp" alt="A collection of printers with ink and toner supplies at SS Printer Services" fetchpriority="high">
+    <div class="hero-sky" aria-hidden="true"></div>
+    <div class="hero-noise" aria-hidden="true"></div>
+    <div class="hero-content" id="hero-content">
+      <div class="hero-sun" aria-hidden="true"></div>
+      <div class="hero-cloud c1" aria-hidden="true"></div>
+      <div class="hero-cloud c2" aria-hidden="true"></div>
+      <p class="hero-eyebrow">Hello, we&rsquo;re SS Printer Services —</p>
+      <p class="hero-vlabel">Repair / Refill / Service</p>
+      <h1 class="hero-h1"><span>Printer</span><br>
+        <span class="roll" aria-label="repair, refills, setup, care"><span class="roll-track" id="roll-track"><span>Repair.</span><span>Refills.</span><span>Setup.</span><span>Care.</span><span>Repair.</span></span></span>
+      </h1>
+      <!-- Recorder / audio player (SPEC §3.1) -->
+      <div class="recorder" id="recorder" role="group" aria-label="Audio: inside the service centre">
+        <div class="rec-disk" aria-hidden="true"></div>
+        <div class="rec-center">
+          <div class="rec-title">Inside the service centre</div>
+          <div class="rec-slider" id="rec-slider">
+            <div class="rec-track"><div class="rec-fill" id="rec-fill"></div></div>
+            <div class="rec-knob" id="rec-knob"></div>
+          </div>
+          <div class="rec-times"><span id="rec-cur">0:00</span><span id="rec-total">2:00</span></div>
+          <button class="rec-play" id="rec-play" aria-label="Play audio"><span class="tri"></span><span class="pause"><i></i><i></i></span></button>
+        </div>
+        <div class="rec-disk" aria-hidden="true"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STORY / PROJECTS (SPEC §3.1) -->
+  <section class="projects" id="story">
+    <div class="wrap">
+      <div class="intro-copy" id="intro-copy">
+        <p>Since 2001, our KPHB service centre has repaired printers and refilled cartridges for homes and offices across Hyderabad — laser, inkjet and plotters, diagnosed at the counter or at your door.</p>
+        <p class="bold">One call, one visit, and your printer is back on the desk — tested, cleaned and printing.</p>
+      </div>
+      <div class="process">
+        <div class="step reveal"><b>Step 01</b><h3>Enquire</h3><p>Call or WhatsApp +91 94409 44388 and tell us what the printer is doing — or not doing.</p></div>
+        <div class="step reveal"><b>Step 02</b><h3>Share the details</h3><p>Brand, model and the error on screen. That is enough for a first diagnosis and repair options.</p></div>
+        <div class="step reveal"><b>Step 03</b><h3>Diagnosis &amp; repair</h3><p>At our KPHB centre, or on-site at your home or office. Door pickup and delivery across Hyderabad.</p></div>
+        <div class="step reveal"><b>Step 04</b><h3>Test &amp; handover</h3><p>Every repair ends with a print test in front of you before handover. No test, no handover.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED WORK (SPEC §3.1) -->
+  <section class="featured-work" id="work">
+    <div class="wrap">
+      <h2 class="featured-h reveal">Brands we service</h2>
+      <div class="marquee" aria-label="Brands serviced: HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh, Kyocera">
+        <div class="marquee-track" id="marquee-track">
+          <span>HP</span><span>Canon</span><span>Epson</span><span>Brother</span><span>Samsung</span><span>Xerox</span><span>Ricoh</span><span>Kyocera</span>
+        </div>
+      </div>
+      <div class="tile-rows">
+        <div class="tile-row" data-tile-row>
+          <article class="tile tile-wide" tabindex="0" data-goto="repair" aria-label="Open the printer repair case study">
+            <img src="assets/workbench-2.webp" alt="Printer repair workbench at SS Printer Services">
+            <div class="tile-overlay"><h3>Repair</h3><p>Laser &amp; inkjet printer repair<br>At the centre or on-site</p></div>
+          </article>
+          <article class="tile tile-narrow" tabindex="0" data-goto="refilling" aria-label="Open the cartridge refilling case study">
+            <img src="assets/toner-collection.webp" alt="CMYK laser toner cartridge collection">
+            <div class="tile-overlay"><h3>Refilling</h3><p>Ink &amp; toner cartridge refilling<br>Cleaned, refilled, print-tested</p></div>
+          </article>
+        </div>
+        <div class="tile-row" data-tile-row>
+          <article class="tile tile-narrow" tabindex="0" data-goto="onsite" aria-label="Open the on-site and AMC case study">
+            <video muted loop playsinline preload="none" poster="assets/service-centre-poster.jpg" data-src="assets/service-centre.mp4" aria-label="Inside the SS Printer service centre"></video>
+            <div class="tile-overlay"><h3>On-Site &amp; AMC</h3><p>Doorstep repair &amp; maintenance<br>Homes and offices, Hyderabad</p></div>
+          </article>
+          <article class="tile tile-wide" tabindex="0" data-goto="spares" aria-label="Open the spares and consumables case study">
+            <img src="assets/printer-collection.webp" alt="Printers with ink and toner supplies">
+            <div class="tile-overlay"><h3>Spares</h3><p>Genuine spare parts &amp; consumables<br>Ink, toner and ribbon cartridges</p></div>
+          </article>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS (SPEC §3.1) -->
+  <section class="testimonials" id="testimonials">
+    <div class="t-head">
+      <p class="t-eyebrow">Testimonials</p>
+      <h2 class="t-heading">In their words</h2>
+    </div>
+    <div class="t-cards" id="t-cards">
+      <article class="t-card">
+        <div class="stars" aria-label="Rated 4.5 of 5 on JustDial">★★★★★</div>
+        <blockquote>Rated 4.5 of 5 from 519 ratings on JustDial — the city&rsquo;s printer owners keep this counter busy. The themes repeat across hundreds of reviews: fast service, genuine work, and a reasonable price for the repair.</blockquote>
+        <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">519 ratings · 4.5 of 5</div></div></div>
+      </article>
+      <article class="t-card">
+        <div class="stars" aria-label="Rated 5 of 5 on Google">★★★★★</div>
+        <blockquote>A perfect 5.0 on Google — from a small set of 2 reviews, and we say so plainly. Both describe the same counter experience customers have had since 2001: bring the printer in broken, take it home printing.</blockquote>
+        <div class="who"><div class="avatar" aria-hidden="true">G</div><div><div class="t-name">Google reviewer</div><div class="t-role">2 reviews · 5.0 of 5</div></div></div>
+      </article>
+      <article class="t-card">
+        <div class="stars" aria-label="Review themes from JustDial">★★★★★</div>
+        <blockquote>What reviewers praise: same-day turnaround, honest diagnosis before any part is changed, and refilled cartridges that are print-tested before handover. What a few flag: popular cartridges can sell out — call ahead on +91 94409 44388.</blockquote>
+        <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">Review themes · JustDial</div></div></div>
+      </article>
+    </div>
+  </section>
+</main>
+
+<!-- ================= ABOUT VIEW (SPEC §3.2) ================= -->
+<div id="about-view" class="view" hidden>
+  <section class="about-intro">
+    <div class="ai-inner">
+      <div>
+        <h1 class="ai-heading">A printer repair counter that Hyderabad has trusted since 2001.</h1>
+        <p class="ai-body">SS Printer Services began in <strong>2001</strong>, when founder <strong>JV</strong> started repairing printers in Kukatpally. Twenty-six years on, the counter at Padmavathi Plaza still runs the same way: <strong>diagnose honestly, repair properly, print-test before handover.</strong></p>
+        <p class="ai-body">Laser and inkjet printers, plotters, cartridge refilling, installation and annual maintenance — for homes, shops and offices across 35+ areas of Hyderabad.</p>
+      </div>
+      <div class="ai-photos" id="ai-photos">
+        <figure class="polaroid pol-1"><img src="assets/product-1.webp" alt="Printer cartridge product at the SS Printer store" draggable="false"><figcaption>Ink &amp; toner</figcaption></figure>
+        <figure class="polaroid pol-2"><img src="assets/workbench-1.webp" alt="Printer on the repair workbench" draggable="false"><figcaption>On the bench</figcaption></figure>
+        <figure class="polaroid pol-3"><img src="assets/product-6.webp" alt="Cartridge refilling supplies" draggable="false"><figcaption>Refilling</figcaption></figure>
+        <figure class="polaroid pol-4"><img src="assets/storefront.webp" alt="SS Printer Services storefront, KPHB" draggable="false"><figcaption>The KPHB store</figcaption></figure>
+        <button class="pol-reset" id="pol-reset" aria-label="Reset photos">↺</button>
+      </div>
+    </div>
+  </section>
+  <section class="about-exp">
+    <div class="ae-inner">
+      <p class="ae-label">The practice, since 2001</p>
+      <div class="exp-row">
+        <div><h3>SS Printer Services</h3><div class="role">Founder JV — printer repair &amp; service centre</div></div>
+        <div class="dates">2001 — Present · KPHB, Hyderabad</div>
+        <ul>
+          <li>Printer repair for HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh and Kyocera.</li>
+          <li>The business&rsquo;s own older pages count 75,000+ printers repaired since 2001 — their claim, kept as they state it.</li>
+          <li>On-site and doorstep service with door pickup and delivery across Hyderabad.</li>
+        </ul>
+      </div>
+      <div class="exp-row">
+        <div><h3>Cartridge Refilling &amp; Consumables</h3><div class="role">Ink &amp; toner refilling — sister store</div></div>
+        <div class="dates">KPHB Main Road</div>
+        <ul><li>Every refill follows the full bench process: disassemble, clean, replace worn parts, refill, then a print test before the cartridge leaves the counter.</li></ul>
+      </div>
+      <div class="exp-row">
+        <div><h3>On-Site &amp; AMC Support</h3><div class="role">Maintenance for homes &amp; offices</div></div>
+        <div class="dates">35+ areas served</div>
+        <ul><li>Installation and setup for new printers, maintenance visits, and annual support for offices that print every day — from KPHB and Hitech City to Secunderabad and Shamshabad.</li></ul>
+      </div>
+      <div class="exp-row">
+        <div><h3>Genuine Spares &amp; Sales</h3><div class="role">Parts, consumables &amp; printer sales</div></div>
+        <div class="dates">Enquiry only — no listed prices</div>
+        <ul><li>Genuine spare parts, ink bottles, ink cartridges, toner cartridges and ribbon cartridges — twelve enquiry-only lines, priced at the counter, never invented online.</li></ul>
+      </div>
+      <div class="quote-block">
+        <p class="q">&ldquo;We fix it. You print it.&rdquo;</p>
+        <p class="by">— The counter promise, SS Printer Services</p>
+      </div>
+    </div>
+  </section>
+  <section class="about-fun">
+    <div class="af-inner">
+      <h2>Counter facts</h2>
+      <div class="fact-grid">
+        <div class="fact-card"><div class="num">1</div><h3>Since 2001</h3><p>Founded by JV, who still leads the bench with 26+ years of printer experience.</p></div>
+        <div class="fact-card"><div class="num">2</div><h3>75,000+ printers</h3><p>Repaired since 2001, as claimed on the business&rsquo;s own older Epson service page.</p></div>
+        <div class="fact-card"><div class="num">3</div><h3>8 brands serviced</h3><p>HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh and Kyocera — plus plotters.</p></div>
+        <div class="fact-card wide"><div class="num">4</div><h3>35+ areas served</h3><p>KPHB, Kukatpally, Hitech City, Madhapur, Gachibowli, Ameerpet, Kondapur, Secunderabad, Begumpet, Banjara Hills, Jubilee Hills, Miyapur, Nizampet, Manikonda, Uppal, Dilsukhnagar, LB Nagar, Kompally, Patancheru, Shamshabad and more.</p></div>
+        <div class="fact-card"><img src="assets/workbench-4.webp" alt="Epson printer models serviced at the centre"><div class="num">5</div><h3>Epson, in depth</h3><p>L3110, L3150, L3250, L380, L5290, L6270, LQ-310, L14150, M3170 and L210 are regulars on this bench.</p></div>
+        <div class="fact-card"><div class="num">6</div><h3>Print-tested, always</h3><p>Repairs and refills both end with a test print. It is the last step of every job ticket.</p></div>
+        <div class="fact-card"><div class="num">7</div><h3>Pay your way</h3><p>Cash, UPI, net banking and cheque/DD accepted, per the business&rsquo;s JustDial listing.</p></div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ================= PLAYGROUND / SERVICES VIEW (SPEC §4) ================= -->
+<div id="playground-view" class="view" hidden>
+  <h1 class="sr-only">Services — printer repair and refilling by SS Printer Services</h1>
+  <section class="pg-flow" id="pg-flow">
+    <p class="pgf-lead">Every service below runs from the same KPHB counter — bring the printer in, or book a visit and the bench comes to you.</p>
+    <div class="pgf-stage" id="pgf-stage">
+      <div class="pgf-track" id="pgf-track"></div>
+      <button class="pgf-arrow prev" id="pgf-prev" aria-label="Previous service">←</button>
+      <button class="pgf-arrow next" id="pgf-next" aria-label="Next service">→</button>
+    </div>
+    <div class="pgf-cap" id="pgf-cap">
+      <div class="idx" id="cap-idx">01 / 08</div>
+      <h2 id="cap-title"></h2>
+      <div class="tags" id="cap-tags"></div>
+      <p id="cap-desc"></p>
+    </div>
+  </section>
+  <section class="playground-bricks">
+    <div class="pg-intro">
+      <h2>All services, one counter</h2>
+      <p>Eight services, one phone number. Every job — a paper jam, a faded refill, a plotter down at a site office — starts the same way: call +91 94409 44388, share the brand, model and error, and we take it from there.</p>
+    </div>
+    <div class="pg-grid" id="pg-grid"></div>
+  </section>
+</div>
+
+<!-- Lightbox (SPEC §4.2) -->
+<div class="pgf-lightbox" id="pgf-lightbox" role="dialog" aria-modal="true" aria-label="Service detail">
+  <button class="lb-close" id="lb-close" aria-label="Close">✕</button>
+  <div class="lb-stage" id="lb-stage"></div>
+  <div class="lb-info">
+    <div class="idx" id="lb-idx">01 / 08</div>
+    <h3 id="lb-title"></h3>
+    <p id="lb-desc"></p>
+  </div>
+  <button class="lb-nav prev" id="lb-prev" aria-label="Previous">←</button>
+  <button class="lb-nav next" id="lb-next" aria-label="Next">→</button>
+</div>
+
+<!-- ================= CASE STUDY: REPAIR ================= -->
+<div id="repair-view" class="view" hidden>
+<article class="cs-page" data-cs>
+  <section class="cs-band cream cs-hero" data-pager-nav="dark">
+    <div class="cs-wrap">
+      <div class="cs-hero-grid">
+        <div>
+          <h1 class="cs-hero-h">Repair</h1>
+          <p class="cs-tagline">Dead printer in, printing printer out.</p>
+          <p class="cs-hero-intro">Laser, inkjet and dot-matrix printers repaired at the KPHB bench — paper jams, print quality faults, board and sensor failures, and the errors that stop a workday cold.</p>
+        </div>
+        <div class="cs-hero-side"><dl class="cs-meta">
+            <dt>Service</dt><dd>Printer repair</dd>
+            <dt>For</dt><dd>Homes, shops &amp; offices</dd>
+            <dt>Since</dt><dd>2001 · Founder JV</dd>
+            <dt>Coverage</dt><dd>Centre + on-site, Hyderabad</dd>
+          </dl></div>
+      </div>
+    </div>
+    <div class="cs-hero-mock"><img src="assets/workbench-1.webp" alt="Repair workbench at SS Printer Services"></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">01</div></div>
+      <div>
+        <p class="cs-ledger-eye">The problem</p>
+        <h2 class="cs-ledger-h">A stopped printer <i>stops everything</i> around it</h2>
+        <p class="cs-p">Invoices wait. Labels wait. Exam papers, delivery challans and site drawings wait. Most faults we see are mechanical or consumable — pickup rollers, fusers, clogged heads, tired cartridges — and most are diagnosed the same day they arrive at the counter.</p>
+        <p class="cs-p">Share the brand, model and the error on the display when you call. That one message lets the bench prepare parts before your printer even reaches KPHB.</p>
+      </div>
+    </div>
+    <div class="cs-cols"><img src="assets/workbench-3.webp" alt="Diagnosis at the bench"><img src="assets/workbench-4.webp" alt="Epson printers queued for service"></div>
+    </div>
+  </section>
+  <section class="cs-band cream cs-quote">
+    <div class="cs-wrap"><p>&ldquo;We fix it. You print it.&rdquo;</p><p class="attr">The counter promise — since 2001</p></div>
+  </section>
+  <section class="cs-band dark cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">02</div></div>
+      <div>
+        <p class="cs-ledger-eye">The bench way</p>
+        <h2 class="cs-ledger-h">Diagnose first, <i>change parts second</i></h2>
+        <p class="cs-p">Every repair starts with diagnosis and repair options — what failed, what it takes to fix, and what can wait. Genuine spare parts are fitted where a part has truly failed, and the old part is shown at handover.</p>
+        <div class="cs-note"><div class="nl">Bench note</div><p>The business&rsquo;s own older pages count 75,000+ printers repaired since 2001. We keep that number exactly as they state it — it is their claim, and twenty-four years of queues at one counter is how it was earned.</p></div>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap">
+      <p class="cs-ledger-eye">How a repair runs</p>
+      <h2 class="cs-ledger-h">Four steps, <i>every time</i></h2>
+      <div class="cs-steps">
+        <div class="cs-step-card"><b>Step 01</b><h4>Enquire</h4><p>Call or WhatsApp +91 94409 44388.</p></div>
+        <div class="cs-step-card"><b>Step 02</b><h4>Share brand, model, error</h4><p>The three details that start every diagnosis.</p></div>
+        <div class="cs-step-card"><b>Step 03</b><h4>Diagnosis &amp; repair</h4><p>At the KPHB centre, on-site, or by door pickup and delivery.</p></div>
+        <div class="cs-step-card"><b>Step 04</b><h4>Test &amp; handover</h4><p>A print test in front of you closes the job.</p></div>
+      </div>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>2001</b><span>Repairing printers in Hyderabad since</span></div>
+        <div class="cs-stat"><b>8</b><span>Brands serviced — HP, Canon, Epson, Brother, Samsung, Xerox, Ricoh, Kyocera</span></div>
+        <div class="cs-stat"><b>35+</b><span>Areas covered for on-site visits and delivery</span></div>
+      </div>
+    </div>
+  </section>
+  <section class="cs-band cream cs-closing">
+    <div class="cs-wrap"><h2>Printer down? Bring it to the counter that has fixed them since 2001.</h2><p>Shop No. 206, Padmavathi Plaza, KPHB Main Road — Mon–Sat, 9:30 AM–8:00 PM.</p><a class="cta" href="https://wa.me/919440944388" target="_blank" rel="noopener">WhatsApp the bench</a></div>
+  </section>
+  <section class="cs-band dark cs-readnext" data-readnext data-next="refilling">
+    <div class="cs-wrap">
+      <div class="rn-copy">
+        <p class="rn-kicker">Read next</p>
+        <a class="rn-title" href="work/refilling.html" data-route="refilling">Refilling</a>
+        <p class="rn-desc">Ink and toner cartridges disassembled, cleaned, refilled and print-tested — the full bench process.</p>
+        <div class="rn-bar"><i></i></div>
+      </div>
+      <a class="rn-card" href="work/refilling.html" data-route="refilling"><img src="assets/toner-collection.webp" alt="Toner cartridge collection"></a>
+    </div>
+  </section>
+</article>
+</div>
+
+<!-- ================= CASE STUDY: REFILLING ================= -->
+<div id="refilling-view" class="view" hidden>
+<article class="cs-page" data-cs>
+  <section class="cs-band cream cs-hero" data-pager-nav="dark">
+    <div class="cs-wrap">
+      <div class="cs-hero-grid">
+        <div>
+          <h1 class="cs-hero-h">Refilling</h1>
+          <p class="cs-tagline">Faded cartridge in, full-density prints out.</p>
+          <p class="cs-hero-intro">Ink and toner cartridge refilling done as a bench process, not a top-up — every cartridge is opened, cleaned and tested before it goes back into your printer.</p>
+        </div>
+        <div class="cs-hero-side"><dl class="cs-meta">
+            <dt>Service</dt><dd>Cartridge refilling</dd>
+            <dt>For</dt><dd>Ink &amp; toner cartridges</dd>
+            <dt>Process</dt><dd>5-step bench refill</dd>
+            <dt>Coverage</dt><dd>KPHB centre + sister store</dd>
+          </dl></div>
+      </div>
+    </div>
+    <div class="cs-hero-mock"><img src="assets/product-6.webp" alt="Cartridges and refilling supplies"></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">01</div></div>
+      <div>
+        <p class="cs-ledger-eye">The problem</p>
+        <h2 class="cs-ledger-h">A cheap top-up <i>costs more</i> than a refill</h2>
+        <p class="cs-p">A cartridge refilled without cleaning carries old toner, worn blades and tired seals into the next cycle — streaks, leaks and grey backgrounds follow. The fix is not more toner; it is the full process, in the right order.</p>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band dark cs-ledger">
+    <div class="cs-wrap">
+      <p class="cs-ledger-eye">The refill process</p>
+      <h2 class="cs-ledger-h">Five steps, <i>in order</i></h2>
+      <div class="cs-steps">
+        <div class="cs-step-card"><b>Step 01</b><h4>Disassemble</h4><p>The cartridge is opened up, not just uncorked.</p></div>
+        <div class="cs-step-card"><b>Step 02</b><h4>Clean</h4><p>Residual toner and ink are cleaned out fully.</p></div>
+        <div class="cs-step-card"><b>Step 03</b><h4>Replace worn parts</h4><p>Worn components are swapped before fresh toner goes in.</p></div>
+        <div class="cs-step-card"><b>Step 04</b><h4>Refill</h4><p>Filled with the correct ink or toner for the cartridge.</p></div>
+        <div class="cs-step-card"><b>Step 05</b><h4>Print test</h4><p>A test page proves density and cleanliness before handover.</p></div>
+      </div>
+    </div>
+  </section>
+  <section class="cs-band cream cs-quote">
+    <div class="cs-wrap"><p>&ldquo;We print, you smile!&rdquo;</p><p class="attr">The refilling counter&rsquo;s own line</p></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">02</div></div>
+      <div>
+        <p class="cs-ledger-eye">The outcome</p>
+        <h2 class="cs-ledger-h">Tested before <i>it leaves the counter</i></h2>
+        <p class="cs-p">No cartridge leaves on a promise. The print test is part of the service — if the test page is not clean, the cartridge goes back on the bench, not into your bag. Popular cartridges can sell out at busy times, reviewers note — a quick call ahead reserves yours.</p>
+        <div class="cs-stats">
+          <div class="cs-stat"><b>5</b><span>Steps in every refill — never a bare top-up</span></div>
+          <div class="cs-stat"><b>2</b><span>Counters — KPHB centre and the refills sister store</span></div>
+          <div class="cs-stat"><b>100%</b><span>Of refills print-tested before handover</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band cream cs-closing">
+    <div class="cs-wrap"><h2>Prints fading? The cartridge is asking for the full process.</h2><p>Drop it at Padmavathi Plaza, KPHB — Mon–Sat, 9:30 AM–8:00 PM.</p><a class="cta" href="tel:+919440944388">Call +91 94409 44388</a></div>
+  </section>
+  <section class="cs-band dark cs-readnext" data-readnext data-next="onsite">
+    <div class="cs-wrap">
+      <div class="rn-copy">
+        <p class="rn-kicker">Read next</p>
+        <a class="rn-title" href="work/onsite.html" data-route="onsite">On-Site &amp; AMC</a>
+        <p class="rn-desc">Doorstep repair, installation and annual maintenance for homes and offices across 35+ areas.</p>
+        <div class="rn-bar"><i></i></div>
+      </div>
+      <a class="rn-card" href="work/onsite.html" data-route="onsite"><img src="assets/service-centre-poster.jpg" alt="Inside the service centre"></a>
+    </div>
+  </section>
+</article>
+</div>
+
+<!-- ================= CASE STUDY: ON-SITE & AMC ================= -->
+<div id="onsite-view" class="view" hidden>
+<article class="cs-page" data-cs>
+  <section class="cs-band cream cs-hero" data-pager-nav="dark">
+    <div class="cs-wrap">
+      <div class="cs-hero-grid">
+        <div>
+          <h1 class="cs-hero-h">On-Site &amp; AMC</h1>
+          <p class="cs-tagline">The bench, at your door.</p>
+          <p class="cs-hero-intro">Doorstep printer repair, new-printer installation and setup, and maintenance support for offices that cannot afford a silent printer — across 35+ areas of Hyderabad.</p>
+        </div>
+        <div class="cs-hero-side"><dl class="cs-meta">
+            <dt>Service</dt><dd>On-site repair &amp; AMC</dd>
+            <dt>For</dt><dd>Homes &amp; offices</dd>
+            <dt>Coverage</dt><dd>35+ areas, Hyderabad</dd>
+            <dt>Extras</dt><dd>Door pickup &amp; delivery</dd>
+          </dl></div>
+      </div>
+    </div>
+    <div class="cs-hero-mock"><video muted loop playsinline autoplay poster="assets/service-centre-poster.jpg" src="assets/service-centre.mp4" aria-label="Inside the SS Printer service centre"></video></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">01</div></div>
+      <div>
+        <p class="cs-ledger-eye">The problem</p>
+        <h2 class="cs-ledger-h">Big printers <i>don&rsquo;t travel</i> — so we do</h2>
+        <p class="cs-p">Plotters, office workgroup printers and networked machines are not counter items. On-site service brings diagnosis to the machine: most faults are fixed where the printer stands, and door pickup and delivery covers the ones that truly need the bench.</p>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band dark cs-ledger">
+    <div class="cs-wrap">
+      <p class="cs-ledger-eye">The impact</p>
+      <h2 class="cs-ledger-h">One number <i>for every printer</i> you own</h2>
+      <div class="cs-stats">
+        <div class="cs-stat"><b>35+</b><span>Areas served across Hyderabad and Secunderabad</span></div>
+        <div class="cs-stat"><b>1</b><span>Call — +91 94409 44388 — for repair, install or AMC</span></div>
+        <div class="cs-stat"><b>6</b><span>Days a week — Monday to Saturday, 9:30 AM–8:00 PM</span></div>
+      </div>
+      <div class="cs-note"><div class="nl">Installation &amp; setup</div><p>New printer on the network, drivers on every desk, test page from each machine — setup is finished only when the whole office can print, not when the box is open.</p></div>
+    </div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap">
+      <p class="cs-ledger-eye">Where we go</p>
+      <h2 class="cs-ledger-h">KPHB to <i>Shamshabad</i></h2>
+      <p class="cs-p">KPHB, Kukatpally, Hitech City, Madhapur, Gachibowli, Ameerpet, Kondapur, Secunderabad, Begumpet, Banjara Hills, Jubilee Hills, Miyapur, Nizampet, Manikonda, Uppal, Dilsukhnagar, LB Nagar, Kompally, Patancheru and Shamshabad — and the neighbourhoods between them.</p>
+      <div class="cs-cols"><img src="assets/storefront.webp" alt="SS Printer Services storefront, KPHB"><img src="assets/printer-collection.webp" alt="Printers serviced on-site and at the centre"></div>
+    </div>
+  </section>
+  <section class="cs-band cream cs-closing">
+    <div class="cs-wrap"><h2>Book the visit before the printer stops the office.</h2><p>On-site repair, installation and AMC — one call covers all of it.</p><a class="cta" href="https://wa.me/919440944388" target="_blank" rel="noopener">WhatsApp +91 94409 44388</a></div>
+  </section>
+  <section class="cs-band dark cs-readnext" data-readnext data-next="spares">
+    <div class="cs-wrap">
+      <div class="rn-copy">
+        <p class="rn-kicker">Read next</p>
+        <a class="rn-title" href="work/spares.html" data-route="spares">Spares</a>
+        <p class="rn-desc">Genuine spare parts and the consumables shelf — ink, toner and ribbon cartridges, enquiry only.</p>
+        <div class="rn-bar"><i></i></div>
+      </div>
+      <a class="rn-card" href="work/spares.html" data-route="spares"><img src="assets/printer-collection.webp" alt="Printers with ink and toner supplies"></a>
+    </div>
+  </section>
+</article>
+</div>
+
+<!-- ================= CASE STUDY: SPARES & CONSUMABLES ================= -->
+<div id="spares-view" class="view" hidden>
+<article class="cs-page" data-cs>
+  <section class="cs-band cream cs-hero" data-pager-nav="dark">
+    <div class="cs-wrap">
+      <div class="cs-hero-grid">
+        <div>
+          <h1 class="cs-hero-h">Spares</h1>
+          <p class="cs-tagline">The right part, the right cartridge.</p>
+          <p class="cs-hero-intro">Genuine spare parts and consumables for the printers we service — plus printer sales, all enquiry-based at the counter. We publish no prices, because the right part depends on your exact model.</p>
+        </div>
+        <div class="cs-hero-side"><dl class="cs-meta">
+            <dt>Service</dt><dd>Spares &amp; consumables</dd>
+            <dt>Lines</dt><dd>12 enquiry-only products</dd>
+            <dt>Prices</dt><dd>At the counter — none listed</dd>
+            <dt>Coverage</dt><dd>KPHB store + delivery</dd>
+          </dl></div>
+      </div>
+    </div>
+    <div class="cs-hero-mock"><img src="assets/toner-collection.webp" alt="CMYK laser toner cartridge collection"></div>
+  </section>
+  <section class="cs-band dark cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">01</div></div>
+      <div>
+        <p class="cs-ledger-eye">My core work</p>
+        <h2 class="cs-ledger-h">Parts that <i>match the model</i>, not the shelf</h2>
+        <p class="cs-p">The products page lists twelve enquiry-only lines: ink bottles, ink cartridges, toner cartridges and ribbon cartridges. Enquiry-only is deliberate — a cartridge bought by name alone is the most common wrong purchase we see, and a two-minute call prevents it.</p>
+        <div class="cs-cols"><img src="assets/product-3.webp" alt="Ink and toner products"><img src="assets/product-8.webp" alt="Cartridge products at the store"></div>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band cream cs-ledger">
+    <div class="cs-wrap"><div class="cs-ledger-head">
+      <div><div class="cs-ledger-num">02</div></div>
+      <div>
+        <p class="cs-ledger-eye">The outcome</p>
+        <h2 class="cs-ledger-h">Genuine parts, <i>fitted or supplied</i></h2>
+        <p class="cs-p">Spares are supplied over the counter or fitted by the bench as part of a repair — either way the part is matched to brand and model first, including the Epson bench regulars: L3110, L3150, L3250, L380, L5290, L6270, LQ-310, L14150, M3170 and L210.</p>
+        <div class="cs-stats">
+          <div class="cs-stat"><b>12</b><span>Enquiry-only product lines — ink, toner, ribbon</span></div>
+          <div class="cs-stat"><b>8</b><span>Brands covered for parts and consumables</span></div>
+          <div class="cs-stat"><b>0</b><span>Prices invented online — the counter quotes the real one</span></div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+  <section class="cs-band cream cs-closing">
+    <div class="cs-wrap"><h2>Need a part? Ask with the model name ready.</h2><p>One call confirms the right cartridge or spare — and whether it is on the shelf today.</p><a class="cta" href="tel:+919440944388">Call +91 94409 44388</a></div>
+  </section>
+  <section class="cs-band dark cs-readnext" data-readnext data-next="repair">
+    <div class="cs-wrap">
+      <div class="rn-copy">
+        <p class="rn-kicker">Read next</p>
+        <a class="rn-title" href="work/repair.html" data-route="repair">Repair</a>
+        <p class="rn-desc">Laser and inkjet repair at the KPHB bench — diagnose first, change parts second, test before handover.</p>
+        <div class="rn-bar"><i></i></div>
+      </div>
+      <a class="rn-card" href="work/repair.html" data-route="repair"><img src="assets/workbench-2.webp" alt="Printer on the repair bench"></a>
+    </div>
+  </section>
+</article>
+</div>
+
+<!-- Case-study pager (SPEC §1.5) -->
+<nav class="cs-pager" id="cs-pager" aria-label="Case study sections"><div class="cs-pg-pill" id="cs-pg-pill"><span class="n"></span><span class="rule"></span><span class="t"></span></div></nav>
+
+<!-- ================= FOOTER (SPEC §1.7) ================= -->
+<footer class="site-footer" id="contact">
+  <p class="ft-sub">Printer repair, refilling and on-site service from KPHB, Hyderabad — since 2001. One call starts every job.</p>
+  <button class="ft-head" data-contact>Let&rsquo;s fix your next print run</button>
+  <div class="ft-grid">
+    <div>
+      <h4>Visit</h4>
+      <p>Shop No. 206, 1st Floor, Padmavathi Plaza,<br>KPHB Main Road, near Kalamandir,<br>Kukatpally, Hyderabad 500072</p>
+      <p>Mon–Sat · 9:30 AM–8:00 PM</p>
+    </div>
+    <div>
+      <h4>Contact</h4>
+      <a href="tel:+919440944388">+91 94409 44388</a>
+      <a href="https://wa.me/919440944388" target="_blank" rel="noopener">WhatsApp the bench</a>
+      <a href="mailto:jv.ssprinterservices@gmail.com">jv.ssprinterservices@gmail.com</a>
+    </div>
+    <div>
+      <h4>Follow</h4>
+      <a href="https://www.instagram.com/ssprinterservicesjv" target="_blank" rel="noopener">Instagram · @ssprinterservicesjv</a>
+      <a href="https://www.facebook.com/ssprinterservices" target="_blank" rel="noopener">Facebook · ssprinterservices</a>
+      <a href="https://www.youtube.com/@ssprinterservicecenter5421" target="_blank" rel="noopener">YouTube · @ssprinterservicecenter5421</a>
+    </div>
+  </div>
+  <div class="ft-credit">
+    <span>© 2026 SS Printer Services · Exclusive Printer Services · We Print, You Smile!</span>
+    <nav><a href="https://www.instagram.com/ssprinterservicesjv" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/ssprinterservices" target="_blank" rel="noopener">Facebook</a><a href="https://www.youtube.com/@ssprinterservicecenter5421" target="_blank" rel="noopener">YouTube</a></nav>
+  </div>
+</footer>
+
+<!-- Contact drawer -->
+<div class="drawer" id="contact-drawer" role="dialog" aria-modal="true" aria-label="Contact SS Printer Services">
+  <div class="scrim" data-close-drawer></div>
+  <div class="panel">
+    <button class="close" data-close-drawer aria-label="Close">✕</button>
+    <h2>Book a repair</h2>
+    <p>Tell us the brand, model and error — the form opens your email app addressed to the service centre.</p>
+    <form id="contact-form">
+      <label for="cf-name">Your name</label>
+      <input id="cf-name" name="name" required autocomplete="name">
+      <label for="cf-phone">Phone</label>
+      <input id="cf-phone" name="phone" type="tel" autocomplete="tel">
+      <label for="cf-printer">Printer brand &amp; model</label>
+      <input id="cf-printer" name="printer" placeholder="e.g. Epson L3250">
+      <label for="cf-msg">What is it doing?</label>
+      <textarea id="cf-msg" name="message" rows="4"></textarea>
+      <button class="send" type="submit">Send enquiry</button>
+    </form>
+    <p class="alt">Faster: <a href="https://wa.me/919440944388" target="_blank" rel="noopener">WhatsApp +91 94409 44388</a><br>or call <a href="tel:+919440944388">+91 94409 44388</a></p>
+  </div>
+</div>
+
+<audio id="audio" preload="none"><source src="assets/store-tour.mp3" type="audio/mpeg"></audio>
+<script src="js/site.js?v=1" defer></script>
+</body>
+</html>
