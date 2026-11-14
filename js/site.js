@@ -38,25 +38,47 @@ var TITLES={home:'SS Printer Services — Printer Repair & Cartridge Refilling, 
 var VIEWS=['home','about','playground','repair','refilling','onsite','spares'];
 var CURTAIN_ROUTES={home:1,about:1,playground:1};
 var current='home';
+var CS_ROUTES={repair:1,refilling:1,onsite:1,spares:1};
 function viewEl(name){ return name==='home'? $('#home-view') : document.getElementById(name+'-view'); }
-function applyRoute(name,skipScroll){
+function applyRoute(name,skipScroll,fromPop){
   current=name;
   VIEWS.forEach(function(v){ var el=viewEl(v); if(el) el.hidden = (v!==name); });
   document.body.className=document.body.className.replace(/\broute-\w+/g,'').trim();
   document.body.classList.add('route-'+name);
-  if(document.body.classList.contains('night-keep')){}
   document.title=TITLES[name]||TITLES.home;
   if(!skipScroll) window.scrollTo({top:0,behavior:'instant'});
-  $('#nav').classList.remove('menu-open');
+  var navEl=$('#nav');
+  navEl.classList.remove('menu-open');
+  var onDark = name==='home';
+  navEl.classList.toggle('nav-on-dark',onDark);
+  navEl.classList.toggle('nav-on-light',!onDark);
+  if(!skipScroll&&!fromPop){ try{ history.pushState(null,'', name==='home'? location.pathname : '#'+name); }catch(e){} }
   buildPager(name);
   initDeck(name);
   Scroll.kick();
 }
 var curtainBusy=false;
+/* Cross-document routes in the reference (case study <-> main pages) load a fresh
+   document, so the page loader is the transition: cover, swap beneath, reveal. */
+function loaderNav(name){
+  curtainBusy=true; loaderDone=false;
+  loaderEl.style.display='';
+  loaderEl.classList.remove('is-hiding');
+  document.documentElement.classList.add('pl-lock');
+  clearInterval(lineTimer);
+  lineTimer=setInterval(function(){ if(!lineEl)return; lineEl.style.opacity=0; setTimeout(function(){ lineIdx=(lineIdx+1)%LOADER_LINES.length; lineEl.textContent=LOADER_LINES[lineIdx]; lineEl.style.opacity=.66; },300); },1600);
+  var target=viewEl(name);
+  var ready=target?viewReady(target):Promise.resolve();
+  showLoader(ready, reduced?600:1200, 8000).then(function(){
+    applyRoute(name);
+    hideLoader();
+    curtainBusy=false;
+  });
+}
 function goRoute(name){
-  if(name===current||curtainBusy) return;
+  if(name===current||curtainBusy||rtRunning) return;
   var useCurtain = CURTAIN_ROUTES[name]&&CURTAIN_ROUTES[current]&&!reduced;
-  if(!useCurtain){ applyRoute(name); return; }
+  if(!useCurtain){ if(CS_ROUTES[name]||CS_ROUTES[current]) loaderNav(name); else applyRoute(name); return; }
   curtainBusy=true;
   var cur=$('#route-curtain'); cur.classList.add('is-active'); cur.classList.remove('is-opening'); cur.classList.add('is-closing');
   var target=viewEl(name);
@@ -71,12 +93,74 @@ function goRoute(name){
 }
 document.addEventListener('click',function(e){
   var a=e.target.closest('[data-route]');
-  if(a){ e.preventDefault(); goRoute(a.getAttribute('data-route')); }
+  if(a){ e.preventDefault(); var n=a.getAttribute('data-route');
+    if(CS_ROUTES[n]&&a.classList.contains('rn-title')) openCS(n, a.closest('[data-readnext]')||a); else goRoute(n); return; }
   var t=e.target.closest('[data-goto]');
-  if(t){ goRoute(t.getAttribute('data-goto')); }
+  if(t){ var n2=t.getAttribute('data-goto');
+    if(CS_ROUTES[n2]) openCS(n2,t); else goRoute(n2); }
 });
-$$('[data-goto]').forEach(function(t){ t.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); goRoute(t.getAttribute('data-goto')); } }); });
-addEventListener('popstate',function(){ applyRoute(route.token()); });
+$$('[data-goto]').forEach(function(t){ t.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); var n=t.getAttribute('data-goto'); if(CS_ROUTES[n]) openCS(n,t); else goRoute(n); } }); });
+addEventListener('popstate',function(){ applyRoute(route.token(),false,true); });
+
+/* ---------------- Route hero transition (SPEC §1.2: expand 440 E1 / settle 620) ----------------
+   Opening a case study — from a home project tile or a read-next panel — expands
+   a clone of the DESTINATION hero mock out of the clicked rect to full screen,
+   swaps the route under full cover, then slides the clone down into the real
+   mock's resting rect while the hero grid rises in. */
+var rtRunning=false;
+function fitRect(r,radius){
+  var W=innerWidth,H=innerHeight;
+  var s=Math.max(r.width/W,r.height/H)||1;
+  return {
+    transform:'translate('+(r.left+r.width/2-W*s/2)+'px,'+(r.top+r.height/2-H*s/2)+'px) scale('+s+')',
+    clipPath:'inset('+Math.max(0,(H-r.height/s)/2)+'px '+Math.max(0,(W-r.width/s)/2)+'px round '+((radius||0)/s)+'px)'
+  };
+}
+function openCS(name,srcEl){
+  if(name===current) return;
+  var destView=viewEl(name);
+  var destMock=destView&&destView.querySelector('.cs-hero .cs-hero-mock');
+  var srcMock=srcEl&&(srcEl.querySelector('.cs-hero-mock')||srcEl);
+  var srcRect=srcMock&&srcMock.getBoundingClientRect();
+  if(rtRunning||curtainBusy||!destMock||!srcRect||!srcRect.width||!srcRect.height||reduced){ applyRoute(name); return; }
+  rtRunning=true;
+  var overlay=document.createElement('div');
+  overlay.className='rt-hero'; overlay.setAttribute('aria-hidden','true');
+  var clone=destMock.cloneNode(true);
+  overlay.appendChild(clone);
+  document.body.appendChild(overlay);
+  var cv=clone.querySelector('video'), sv=srcMock.querySelector('video');
+  if(cv){ cv.muted=true; if(sv){ try{ cv.currentTime=sv.currentTime; }catch(e){} } if(cv.play) cv.play().catch(function(){}); }
+  var radius=parseFloat(getComputedStyle(srcEl).borderRadius)||0;
+  var from=fitRect(srcRect,radius);
+  var full=fitRect({left:0,top:0,width:innerWidth,height:innerHeight},0);
+  overlay.style.transform=from.transform;
+  overlay.style.clipPath=from.clipPath;
+  var gridAnim=null;
+  function cleanup(){
+    document.documentElement.classList.remove('rt-settling');
+    overlay.remove();
+    if(gridAnim) gridAnim.cancel();
+    rtRunning=false;
+  }
+  var expand=overlay.animate([from,full],{duration:440,easing:'cubic-bezier(0.22,1,0.36,1)',fill:'both'});
+  expand.finished.then(function(){
+    overlay.style.transform=full.transform;
+    overlay.style.clipPath=full.clipPath;
+    expand.cancel();
+    document.documentElement.classList.add('rt-settling');
+    applyRoute(name);
+    requestAnimationFrame(function(){
+      var destRect=destMock.getBoundingClientRect();
+      if(destRect.width<1||destRect.height<1){ cleanup(); return; }
+      var to=fitRect(destRect,0);
+      var b=overlay.animate([full,to],{duration:620,easing:'cubic-bezier(0.33,1,0.68,1)',fill:'both'});
+      var grid=destView.querySelector('.cs-hero .cs-hero-grid');
+      if(grid) gridAnim=grid.animate([{opacity:0,transform:'translateY(24px)'},{opacity:1,transform:'none'}],{duration:520,delay:120,easing:'cubic-bezier(0.33,1,0.68,1)',fill:'both'});
+      b.finished.then(cleanup,cleanup);
+    });
+  },cleanup);
+}
 
 /* ---------------- Theme (SPEC §1.7) ---------------- */
 var themeBtn=$('#theme-toggle');
@@ -91,6 +175,14 @@ themeBtn.addEventListener('click',function(){
 /* ---------------- Nav ---------------- */
 var nav=$('#nav'),pill=$('#nav-pill');
 Scroll.add(function(y){ pill.classList.toggle('compact',y>innerHeight*0.7); });
+/* Nav contrast tracks the backdrop on sky/photo-first routes (reference: updateNavContrast) */
+Scroll.add(function(y,vh){
+  if(current==='home'){
+    var dark=y<vh*0.85;
+    nav.classList.toggle('nav-on-dark',dark);
+    nav.classList.toggle('nav-on-light',!dark);
+  }
+});
 $('#burger').addEventListener('click',function(){ nav.classList.toggle('menu-open'); });
 $$('#nav .mobile-menu a').forEach(function(a){ a.addEventListener('click',function(){ nav.classList.remove('menu-open'); }); });
 
@@ -121,6 +213,26 @@ slider.addEventListener('pointerup',function(){ scrubbing=false; rec.classList.r
 /* ---------------- Hero: word roll + scroll scale (SPEC §3.1) ---------------- */
 var track=$('#roll-track'),rollIdx=0;
 if(track&&!reduced){ setInterval(function(){ rollIdx++; track.style.transform='translateY(-'+(rollIdx*1.2)+'em)'; if(rollIdx===4){ setTimeout(function(){ track.style.transition='none'; rollIdx=0; track.style.transform='translateY(0)'; requestAnimationFrame(function(){ requestAnimationFrame(function(){ track.style.transition=''; }); }); },620); } },1460); /* HOLD 900 + roll 560 */ }
+/* Meteors (night only, hero visible): one streak at a time, JS-set vars per SPEC §5 */
+(function(){
+  var layer=$('.hero-meteors'); if(!layer||reduced) return;
+  function spawn(){
+    if(document.body.classList.contains('night')&&current==='home'&&window.scrollY<innerHeight){
+      var m=document.createElement('div'); m.className='hero-meteor';
+      var len=140+Math.random()*160;
+      m.style.setProperty('--m-top',(4+Math.random()*30)+'%');
+      m.style.setProperty('--m-len',len+'px');
+      m.style.setProperty('--m-angle',(10+Math.random()*10)+'deg');
+      m.style.setProperty('--m-travel',(innerWidth*1.1)+'px');
+      m.style.animation='hero-meteor-fly '+(1200+Math.random()*600)+'ms linear forwards';
+      layer.appendChild(m);
+      setTimeout(function(){ m.remove(); },2200);
+    }
+    setTimeout(spawn, 5000+Math.random()*7000);
+  }
+  setTimeout(spawn, 4000);
+})();
+
 var heroContent=$('#hero-content');
 Scroll.add(function(y,vh,vw){
   if(current!=='home'||!heroContent) return;
