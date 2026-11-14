@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500&family=Inter:wght@300;400;700&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=1">
+<link rel="stylesheet" href="../css/site.css?v=2">
 <script>
 /* Route shim + theme pre-paint (own code, SPEC §1.2/§1.7) */
 (function(){
@@ -68,14 +68,8 @@
 <!-- Nav (SPEC §1.7) -->
 <header id="nav">
   <div class="nav-side"><span class="pin" aria-hidden="true"></span> Hyderabad, TS</div>
-  <a class="nav-back" href="../" data-route="home">← All services</a>
-  <nav class="nav-pill" id="nav-pill" aria-label="Main">
-    <a class="nav-link" href="../" data-route="home">Work</a>
-    <a class="nav-link" href="../about.html" data-route="about">About</a>
-    <a class="nav-link" href="../playground.html" data-route="playground">Services</a>
-    <span class="avail"><span class="avail-dot"></span> Open Mon–Sat</span>
-    <a href="#contact" data-contact>Contact</a>
-  </nav>
+  <a class="nav-back" href="../" data-route="home">← Back</a>
+  <nav class="nav-pill" id="nav-pill" aria-label="Main"><span class="nav-avatar"><img src="../assets/storefront.webp" alt=""></span><span class="nav-links"><a class="nav-link" href=".././" data-route="home">Work</a><a class="nav-link" href="../about.html" data-route="about">About</a><a class="nav-link" href="../playground.html" data-route="playground">Services</a></span><span class="avail"><span class="avail-dot"></span> Open Mon–Sat</span><button class="nav-cta" data-contact><span class="env" aria-hidden="true">✉</span> Book a repair</button></nav>
   <div class="nav-tools">
     <button class="wave-btn" id="wave-btn" aria-label="Play or pause the service centre audio">
       <span class="bars"><i></i><i></i><i></i><i></i></span>
@@ -124,7 +118,10 @@
   </section>
 
   <!-- STORY / PROJECTS (SPEC §3.1) -->
+  <div class="plane-layer" id="plane-layer" aria-hidden="true"><svg class="trail" viewBox="0 0 1440 3021" preserveAspectRatio="none"><path id="trail-1" d="M120 120 C500 420 900 300 1180 760"/><path id="trail-2" d="M1180 1060 C900 1400 420 1330 240 1760"/><path id="trail-3" d="M240 2060 C600 2380 1050 2300 1240 2820"/></svg><div class="paper-plane" id="paper-plane"><svg viewBox="0 0 40 40"><path d="M4 22 L36 6 L24 34 L19 25 Z" fill="#060606"/></svg></div></div>
   <section class="projects" id="story">
+    <svg class="sky-band" viewBox="0 0 1440 471" preserveAspectRatio="none" aria-hidden="true"><path d="M0 318 C180 236 340 342 560 282 C780 222 900 322 1120 262 C1260 224 1360 262 1440 232 L1440 471 L0 471 Z" fill="#eee8d2" opacity="0.55"/><path d="M0 356 C220 282 420 372 680 312 C940 252 1100 352 1440 282 L1440 471 L0 471 Z" fill="#fff9f1"/></svg>
+    
     <div class="wrap">
       <div class="intro-copy" id="intro-copy">
         <p>Since 2001, our KPHB service centre has repaired printers and refilled cartridges for homes and offices across Hyderabad — laser, inkjet and plotters, diagnosed at the counter or at your door.</p>
@@ -196,12 +193,15 @@
         <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">Review themes · JustDial</div></div></div>
       </article>
     </div>
+    <div class="t-land" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 78 C240 52 480 92 760 70 C1040 48 1240 84 1440 62 L1440 120 L0 120 Z" fill="#e7e0d2"/><g stroke="#5c7d3f" stroke-width="3" fill="none" opacity="0.65"><path d="M120 84 q4 -22 -4 -34"/><path d="M132 84 q10 -18 22 -24"/><path d="M640 80 q4 -22 -4 -34"/><path d="M652 80 q10 -18 22 -24"/><path d="M1180 76 q4 -22 -4 -34"/><path d="M1192 76 q10 -18 22 -24"/></g></svg></div>
   </section>
 </main>
 
 <!-- ================= ABOUT VIEW (SPEC §3.2) ================= -->
 <div id="about-view" class="view" hidden>
   <section class="about-intro">
+    <div class="ai-sunclouds" aria-hidden="true"><span class="sun"></span><span class="cloud a"></span><span class="cloud b"></span></div>
+    
     <div class="ai-inner">
       <div>
         <h1 class="ai-heading">A printer repair counter that Hyderabad has trusted since 2001.</h1>
@@ -216,6 +216,7 @@
         <button class="pol-reset" id="pol-reset" aria-label="Reset photos">↺</button>
       </div>
     </div>
+    <div class="ai-land" aria-hidden="true"><svg viewBox="0 0 1440 110" preserveAspectRatio="none"><path d="M0 64 C260 38 520 82 820 58 C1100 36 1280 70 1440 50 L1440 110 L0 110 Z" fill="#eee8d2"/></svg></div>
   </section>
   <section class="about-exp">
     <div class="ae-inner">
@@ -277,9 +278,8 @@
       <button class="pgf-arrow next" id="pgf-next" aria-label="Next service">→</button>
     </div>
     <div class="pgf-cap" id="pgf-cap">
-      <div class="idx" id="cap-idx">01 / 08</div>
+      <div class="cap-top"><span class="idx" id="cap-idx">01 / 08</span><span class="tags" id="cap-tags"></span></div>
       <h2 id="cap-title"></h2>
-      <div class="tags" id="cap-tags"></div>
       <p id="cap-desc"></p>
     </div>
   </section>
@@ -628,6 +628,7 @@
     <span>© 2026 SS Printer Services · Exclusive Printer Services · We Print, You Smile!</span>
     <nav><a href="https://www.instagram.com/ssprinterservicesjv" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/ssprinterservices" target="_blank" rel="noopener">Facebook</a><a href="https://www.youtube.com/@ssprinterservicecenter5421" target="_blank" rel="noopener">YouTube</a></nav>
   </div>
+  <div class="garden" id="garden"><span class="g-hint">Tap the garden to water it</span><svg class="g-land" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C260 44 520 88 820 64 C1100 42 1280 76 1440 56 L1440 120 L0 120 Z" fill="#eee8d2"/><path d="M0 92 C300 70 640 102 980 84 C1180 74 1330 92 1440 82 L1440 120 L0 120 Z" fill="#e7e0d2"/></svg><div class="g-plants" id="g-plants"></div></div>
 </footer>
 
 <!-- Contact drawer -->
@@ -653,6 +654,6 @@
 </div>
 
 <audio id="audio" preload="none"><source src="../assets/store-tour.mp3" type="audio/mpeg"></audio>
-<script src="../js/site.js?v=1" defer></script>
+<script src="../js/site.js?v=2" defer></script>
 </body>
 </html>
