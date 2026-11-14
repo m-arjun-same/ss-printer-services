@@ -418,6 +418,9 @@ $$('video[data-src]').forEach(function(v){ vio.observe(v); });
   var stage=$('.fact-grid',view); if(!stage)return;
   var cards=$$('.fact-card',stage); if(!cards.length)return;
   var section=$('.about-fun',view);
+  var inner=$('.af-inner',view);
+  var PAD=40;
+  function fit(){ if(!inner||view.hidden)return; var w=inner.offsetWidth||1320,h=inner.offsetHeight||900; var s=Math.min(1,(innerWidth-PAD)/w,(innerHeight-PAD)/h); if(s<0.1)s=0.1; inner.style.setProperty('--ff-fit',s.toFixed(4)); }
   var flowTop=0,lastOpen=null,needsLayout=true;
   function layout(){
     var prev=stage.style.getPropertyValue('--ff-open');
@@ -432,6 +435,7 @@ $$('video[data-src]').forEach(function(v){ vio.observe(v); });
     });
     stage.style.setProperty('--ff-open',prev||'1');
     needsLayout=false;
+    fit();
   }
   function smooth(t){ t=Math.min(1,Math.max(0,t)); return t*t*(3-2*t); }
   Scroll.add(function(){
@@ -785,32 +789,39 @@ function initDeck(name){
   });
 })();
 
-/* ---------------- Footer garden (SPEC §1.7) ---------------- */
+/* ---------------- Footer printer (tap-to-fix) ---------------- */
 (function(){
-  var wrap=$('#g-plants'), garden=$('#garden'); if(!wrap||!garden)return;
-  var petalC=['#faf5e6','#fbf7ec','#f7f1df'], stemC=['#b06a4d','#a95c42','#bb765b'],
-      lavC=['#7c5fa6','#684c90','#8f73b8','#5b4680','#9a80c2'], leafC=['#5c7d3f','#4a6b33','#6f9450'];
-  var plants=[];
-  for(var i=0;i<16;i++){
-    var el=document.createElement('div'); el.className='g-plant';
-    el.style.left=(4+i/15*92+Math.sin(i*7.3)*1.4)+'%';
-    el.style.width=(26+((i*17)%14))+'px';
-    el.style.setProperty('--gs',(0.45+((i*29)%30)/100).toFixed(2));
-    el.style.setProperty('--sway',(4.2+((i*13)%26)/10)+'s');
-    var kind=i%3, svg='';
-    if(kind===0){ var rings=''; for(var p=0;p<6;p++) rings+='<ellipse cx="17" cy="9" rx="4.6" ry="8" fill="'+petalC[i%3]+'" stroke="#e2d5b0" transform="rotate('+(p*60)+' 17 20)"/>';
-      svg='<svg viewBox="0 0 34 100"><path d="M17 100 C15 74 19 56 17 40" stroke="'+stemC[i%3]+'" stroke-width="3" fill="none"/>'+rings+'<circle cx="17" cy="20" r="5.4" fill="#e89a1c"/></svg>'; }
-    else if(kind===1){ svg='<svg viewBox="0 0 34 100"><path d="M17 100 C15 70 19 50 17 26" stroke="'+stemC[i%3]+'" stroke-width="3" fill="none"/><g fill="'+lavC[i%5]+'"><circle cx="17" cy="14" r="5"/><circle cx="11" cy="24" r="4.4"/><circle cx="23" cy="24" r="4.4"/><circle cx="12" cy="35" r="4"/><circle cx="22" cy="35" r="4"/></g></svg>'; }
-    else { svg='<svg viewBox="0 0 34 100"><path d="M17 100 C16 76 18 60 17 44" stroke="#33361a" stroke-width="3" fill="none"/><path d="M17 62 C6 54 3 40 5 28 C17 32 22 46 17 62Z" fill="'+leafC[i%3]+'"/><path d="M17 50 C28 42 31 28 29 16 C17 20 12 34 17 50Z" fill="'+leafC[(i+1)%3]+'"/></svg>'; }
-    el.innerHTML=svg; wrap.appendChild(el); plants.push(el);
+  var strip=$('#fix-strip'), tray=$('#fx-tray'), hint=$('#fx-hint');
+  if(!strip||!tray)return;
+  var LINES=['We Fix It. You Print It!','Laser & inkjet repair','Toner refilled \u2014 full again','Test page: perfect','Serving Hyderabad since 2001'];
+  var fixed=false, busy=false, printed=0, pages=[];
+  function restack(){
+    pages.forEach(function(p,i){
+      p.style.transform='translateY('+(2+i*6)+'px) rotate('+((i%2)?-1.6:1.6)+'deg)';
+      p.style.zIndex=String(i+1);
+    });
   }
-  var drops=[];
-  garden.addEventListener('click',function(e){
-    var r=garden.getBoundingClientRect(), cx=e.clientX-r.left, cy=e.clientY-r.top;
-    plants.forEach(function(pl){ var pr=pl.getBoundingClientRect(); if(Math.abs(pr.left-r.left+pr.width/2-cx)<=80) pl.style.setProperty('--gs',1); }); /* reach 80px */
-    for(var d2=0;d2<7;d2++){ var dr=document.createElement('span'); dr.className='g-drop'; garden.appendChild(dr); drops.push({el:dr,x:cx+(Math.random()*36-18),y:cy,vy:Math.random()*1.5,vx:Math.random()*1.6-0.8}); }
-  });
-  (function tick(){ drops=drops.filter(function(d3){ d3.vy+=0.42; d3.x+=d3.vx; d3.y+=d3.vy; d3.el.style.left=d3.x+'px'; d3.el.style.top=d3.y+'px'; if(d3.y>garden.clientHeight-26){ d3.el.remove(); return false; } return true; }); requestAnimationFrame(tick); })(); /* droplet gravity 0.42 */
+  function feed(){
+    var page=document.createElement('div'); page.className='fx-page';
+    page.textContent=LINES[printed%LINES.length]; printed++;
+    tray.appendChild(page); pages.push(page);
+    if(pages.length>4){ var old=pages.shift(); old.style.opacity='0'; setTimeout(function(){ old.remove(); },480); }
+    requestAnimationFrame(function(){ requestAnimationFrame(function(){ restack(); page.classList.add('out'); }); });
+  }
+  function fix(){
+    if(busy)return;
+    if(fixed){ feed(); return; }
+    busy=true;
+    strip.classList.add('is-fixing');
+    setTimeout(function(){
+      strip.classList.remove('is-fixing');
+      strip.classList.add('is-fixed'); fixed=true; busy=false;
+      if(hint)hint.textContent='Fixed \u2014 tap to print a page';
+      feed();
+    }, reduced?60:720);
+  }
+  strip.addEventListener('click',fix);
+  strip.addEventListener('keydown',function(e){ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); fix(); } });
 })();
 
 /* ---------------- Boot ---------------- */

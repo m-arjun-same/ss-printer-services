@@ -9,7 +9,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=Figtree:wght@300;400;500&family=Inter:wght@300;400;700&family=Roboto:wght@500;800&family=Lato:wght@300;400;700&family=Space+Grotesk:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500;700&family=Playfair+Display:ital,wght@1,400..600&family=Darker+Grotesque:wght@700&family=Bitter:ital@1&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../css/site.css?v=5">
+<link rel="stylesheet" href="../css/site.css?v=6">
 <script>
 /* Route shim + theme pre-paint (own code, SPEC §1.2/§1.7) */
 (function(){
@@ -197,7 +197,6 @@
         <div class="who"><div class="avatar" aria-hidden="true">J</div><div><div class="t-name">JustDial customer</div><div class="t-role">Review themes · JustDial</div></div></div>
       </article>
     </div>
-    <div class="t-land" aria-hidden="true"><svg viewBox="0 0 1440 120" preserveAspectRatio="none"><path d="M0 78 C240 52 480 92 760 70 C1040 48 1240 84 1440 62 L1440 120 L0 120 Z" fill="#e7e0d2"/><g stroke="#5c7d3f" stroke-width="3" fill="none" opacity="0.65"><path d="M120 84 q4 -22 -4 -34"/><path d="M132 84 q10 -18 22 -24"/><path d="M640 80 q4 -22 -4 -34"/><path d="M652 80 q10 -18 22 -24"/><path d="M1180 76 q4 -22 -4 -34"/><path d="M1192 76 q10 -18 22 -24"/></g></svg></div>
   </section>
   <div class="t-scrub" aria-hidden="true"></div>
 
@@ -290,6 +289,7 @@
       </div>
     </div>
   </section>
+  <div class="aff-hold" aria-hidden="true"></div>
 </div>
 
 <!-- ================= PLAYGROUND / SERVICES VIEW (SPEC §4) ================= -->
@@ -634,7 +634,7 @@
     <span>© 2026 SS Printer Services · Exclusive Printer Services · We Print, You Smile!</span>
     <nav><a href="https://www.instagram.com/ssprinterservicesjv" target="_blank" rel="noopener">Instagram</a><a href="https://www.facebook.com/ssprinterservices" target="_blank" rel="noopener">Facebook</a><a href="https://www.youtube.com/@ssprinterservicecenter5421" target="_blank" rel="noopener">YouTube</a></nav>
   </div>
-  <div class="garden" id="garden"><span class="g-hint">Tap the garden to water it</span><svg class="g-land" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C260 44 520 88 820 64 C1100 42 1280 76 1440 56 L1440 120 L0 120 Z" fill="#eee8d2"/><path d="M0 92 C300 70 640 102 980 84 C1180 74 1330 92 1440 82 L1440 120 L0 120 Z" fill="#e7e0d2"/></svg><div class="g-plants" id="g-plants"></div></div>
+  <div class="fix-strip" id="fix-strip" role="button" tabindex="0" aria-label="Tap the printer to fix it"><span class="fx-hint" id="fx-hint">Tap the printer to fix it</span><svg class="fx-land" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path d="M0 70 C260 44 520 88 820 64 C1100 42 1280 76 1440 56 L1440 120 L0 120 Z" fill="#eee8d2"/><path d="M0 92 C300 70 640 102 980 84 C1180 74 1330 92 1440 82 L1440 120 L0 120 Z" fill="#e7e0d2"/></svg><div class="fx-printer" aria-hidden="true"><svg class="fx-svg" viewBox="0 0 230 120"><rect x="74" y="2" width="82" height="38" rx="2" fill="#fffdf6"/><path d="M84 12h62M84 20h62M84 28h40" stroke="#b9b09a" stroke-width="3"/><rect class="fx-deck" x="40" y="32" width="150" height="18" rx="8"/><rect class="fx-body" x="26" y="44" width="178" height="50" rx="10"/><g class="fx-gear"><circle cx="56" cy="62" r="8"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4" transform="rotate(60 56 62)"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4" transform="rotate(120 56 62)"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4" transform="rotate(180 56 62)"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4" transform="rotate(240 56 62)"/><rect x="53.8" y="48.5" width="4.4" height="7" rx="1.4" transform="rotate(300 56 62)"/><circle class="fx-gear-hole" cx="56" cy="62" r="3.2"/></g><text class="fx-brand" x="118" y="66" text-anchor="middle" font-size="9" letter-spacing="2">SS PRINTER</text><circle class="fx-light" cx="182" cy="62" r="5.5"/><rect x="52" y="80" width="126" height="7" rx="3.5" fill="#060606"/><rect class="fx-body" x="44" y="94" width="10" height="8" rx="2"/><rect class="fx-body" x="176" y="94" width="10" height="8" rx="2"/></svg><div class="fx-stuck"></div></div><div class="fx-tray" id="fx-tray" aria-hidden="true"></div></div>
 </footer>
 
 <!-- Contact drawer -->
@@ -660,6 +660,6 @@
 </div>
 
 <audio id="audio" preload="none"><source src="../assets/store-tour.mp3" type="audio/mpeg"></audio>
-<script src="../js/site.js?v=5" defer></script>
+<script src="../js/site.js?v=6" defer></script>
 </body>
 </html>
