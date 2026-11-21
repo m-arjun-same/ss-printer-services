@@ -1,4 +1,4 @@
-/* SS Printer Services — own-code site engine. Mechanics per forensic SPEC; no reference code reused. */
+/* Mariglow Salon — own-code site engine. Mechanics per forensic SPEC; no reference code reused. */
 (function(){'use strict';
 var $=function(s,c){return (c||document).querySelector(s)};
 var $$=function(s,c){return Array.prototype.slice.call((c||document).querySelectorAll(s))};
@@ -9,7 +9,7 @@ if(CS_STATIC) document.documentElement.classList.add('cs-static');
 function fmt(t){if(!isFinite(t))t=0;t=Math.max(0,Math.round(t));return Math.floor(t/60)+':'+('0'+(t%60)).slice(-2)}
 
 /* ---------------- Loader (SPEC §1.3: cold min 1200 / cap 8000; heavy 500/1500) ---------------- */
-var LOADER_LINES=['Warming up the print heads…','Checking toner levels…','Aligning the bench…','Loading paper, A4…','Testing page one…','Since 2001, still printing…','Calibrating colours…','Clearing paper jams…','Sharpening the diagnosis…','Ready when you are…'];
+var LOADER_LINES=['Warming up the styling chairs…','Checking the mirror lights…','Fluffing the towels…','Mixing the gloss…','Testing the shine…','Since 2012, still glowing…','Warming the spa stones…','Sharpening the scissors…','Polishing the nail bar…','Ready when you are…'];
 var loaderEl=$('#page-loader'),lineEl=$('#pl-line'),lineIdx=0,loaderDone=false;
 document.documentElement.classList.add('pl-lock');
 var lineTimer=setInterval(function(){ if(!lineEl)return; lineEl.style.opacity=0; setTimeout(function(){ lineIdx=(lineIdx+1)%LOADER_LINES.length; lineEl.textContent=LOADER_LINES[lineIdx]; lineEl.style.opacity=.66; },300); },1600);
@@ -34,7 +34,7 @@ function viewReady(view){
 }
 
 /* ---------------- Router + curtain (SPEC §1.2: 550 / 350 / 900) ---------------- */
-var TITLES={home:'SS Printer Services — Printer Repair & Cartridge Refilling, Hyderabad',about:'About — SS Printer Services, Hyderabad since 2001',playground:'Services — SS Printer Services',repair:'Repair — SS Printer Services',refilling:'Refilling — SS Printer Services',onsite:'On-Site & AMC — SS Printer Services',spares:'Spares & Consumables — SS Printer Services'};
+var TITLES={home:'Mariglow Salon — Hair, Skin & Spa, Koregaon Park, Pune',about:'About — Mariglow Salon, Pune since 2012',playground:'Services — Mariglow Salon',repair:'Hair Repair — Mariglow Salon',refilling:'Colour Refresh — Mariglow Salon',onsite:'At-Home & Bridal — Mariglow Salon',spares:'The Product Shelf — Mariglow Salon'};
 var VIEWS=['home','about','playground','repair','refilling','onsite','spares'];
 var CURTAIN_ROUTES={home:1,about:1,playground:1};
 var current='home';
@@ -459,14 +459,14 @@ $$('video[data-src]').forEach(function(v){ vio.observe(v); });
 
 /* ---------------- Playground coverflow (SPEC §4.1 — exact ring maths) ---------------- */
 var SERVICES=[
- {t:'Laser & Inkjet Repair',tag:'Repair · Since 2001',img:'assets/workbench-2.webp',d:'Paper jams, dead boards, faded prints — laser and inkjet printers diagnosed and repaired at the KPHB bench.'},
- {t:'On-Site Repair',tag:'Service · 35+ Areas',video:'assets/service-centre.mp4',poster:'assets/service-centre-poster.jpg',d:'The bench comes to you: doorstep repair for homes and offices, with door pickup and delivery in Hyderabad.'},
- {t:'Cartridge Refilling',tag:'Refilling · 5-Step Process',img:'assets/toner-collection.webp',d:'Ink and toner cartridges disassembled, cleaned, refilled and print-tested — never a bare top-up.'},
- {t:'Installation & Setup',tag:'Setup · Homes & Offices',img:'assets/printer-collection.webp',d:'New printer unboxed, networked and printing from every desk — setup ends with a test page, not a shrug.'},
- {t:'Maintenance & AMC',tag:'Support · Offices',img:'assets/workbench-4.webp',d:'Scheduled maintenance and annual support for offices that print every day and cannot afford a silent machine.'},
- {t:'Genuine Spare Parts',tag:'Spares · Genuine',img:'assets/product-3.webp',d:'Genuine parts matched to your exact brand and model — supplied at the counter or fitted by the bench.'},
- {t:'Plotter Repair',tag:'Repair · Large Format',img:'assets/workbench-1.webp',d:'Large-format plotters repaired on-site where they stand — the machines that do not travel come to us last.'},
- {t:'Printer Sales',tag:'Sales · Enquiry Only',img:'assets/storefront.webp',d:'Printers sold with honest advice from the people who will service them — enquire at the counter, no listed prices.'}
+ {t:'Signature Hair Spa & Repair',tag:'Hair Repair · Since 2012',video:'assets/hair-repair.mp4',poster:'assets/hair-repair-poster.jpg',d:'Split ends, colour fatigue, frizz — tired hair consulted, treated and mirror-checked at the Lane 7 chairs.'},
+ {t:'At-Home Styling',tag:'Service · 12 Neighbourhoods',video:'assets/service-centre.mp4',poster:'assets/service-centre-poster.jpg',d:'The salon comes to you: doorstep styling for homes and venues, with the full kit carried across Pune.'},
+ {t:'Colour & Gloss Refresh',tag:'Colour · 5-Step Ritual',img:'assets/toner-collection.webp',d:'Colour cleansed, patch-tested, applied and gloss-checked — never a rush job.'},
+ {t:'Bridal & Occasion',tag:'Bridal · Homes & Venues',img:'assets/printer-collection.webp',d:'Hair and makeup for the whole party, trialled before the day — finished only when every guest is glowing.'},
+ {t:'Glow Memberships',tag:'Support · Regulars',img:'assets/workbench-4.webp',d:'Scheduled care and member pricing for regulars who glow every season and cannot afford a bad hair month.'},
+ {t:'The Product Shelf',tag:'Shelf · Genuine Lines',img:'assets/product-3.webp',d:'Genuine care lines matched to your exact hair and skin — taken home at the desk or used in your treatment.'},
+ {t:'Skin & Facial Studio',tag:'Skin · Treatment Room',img:'assets/workbench-3.webp',d:'Facials and skin rituals in the quiet room — assessed on your skin today, not on a chart.'},
+ {t:'Packages & Gift Cards',tag:'Packages · Enquiry Only',img:'assets/storefront.webp',d:'Salon packages and gift cards with honest advice from the stylists who will pamper you — enquire at the desk, no listed prices.'}
 ];
 var N=SERVICES.length,active=0,trackEl=$('#pgf-track'),capEl=$('#pgf-cap'),wheelLock=0;
 function mod(i,n){ return ((i%n)+n)%n; }
@@ -634,8 +634,8 @@ addEventListener('keydown',function(e){ if(e.key==='Escape'){ closeDrawer(); if(
 $('#contact-form').addEventListener('submit',function(e){
   e.preventDefault();
   var name=$('#cf-name').value,phone=$('#cf-phone').value,pr=$('#cf-printer').value,msg=$('#cf-msg').value;
-  var body=encodeURIComponent('Name: '+name+'\nPhone: '+phone+'\nPrinter: '+pr+'\n\n'+msg);
-  location.href='mailto:jv.ssprinterservices@gmail.com?subject='+encodeURIComponent('Repair enquiry — '+pr)+'&body='+body;
+  var body=encodeURIComponent('Name: '+name+'\nPhone: '+phone+'\nService: '+pr+'\n\n'+msg);
+  location.href='mailto:hello@mariglowsalon.in?subject='+encodeURIComponent('Booking enquiry — '+pr)+'&body='+body;
 });
 
 /* ---------------- Dot cursor (SPEC §1.7) ---------------- */
@@ -789,11 +789,11 @@ function initDeck(name){
   });
 })();
 
-/* ---------------- Footer printer (tap-to-fix) ---------------- */
+/* ---------------- Footer style-card machine (tap-to-start) ---------------- */
 (function(){
   var strip=$('#fix-strip'), tray=$('#fx-tray'), hint=$('#fx-hint');
   if(!strip||!tray)return;
-  var LINES=['We Fix It. You Print It!','Laser & inkjet repair','Toner refilled \u2014 full again','Test page: perfect','Serving Hyderabad since 2001'];
+  var LINES=['You Sit. We Style. You Glow!','Hair spa \u2014 restored','Colour refreshed \u2014 glossy again','Mirror check: perfect','Glowing in Pune since 2012'];
   var fixed=false, busy=false, printed=0, pages=[];
   function restack(){
     pages.forEach(function(p,i){
@@ -816,7 +816,7 @@ function initDeck(name){
     setTimeout(function(){
       strip.classList.remove('is-fixing');
       strip.classList.add('is-fixed'); fixed=true; busy=false;
-      if(hint)hint.textContent='Fixed \u2014 tap to print a page';
+      if(hint)hint.textContent='Ready \u2014 tap to print a card';
       feed();
     }, reduced?60:720);
   }
